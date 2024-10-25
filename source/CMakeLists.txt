@@ -396,6 +396,7 @@ if(SPIRV_TOOLS_BUILD_STATIC)
   spirv_tools_default_target_options(${SPIRV_TOOLS}-static)
   # The static target does not have the '-static' suffix.
   set_target_properties(${SPIRV_TOOLS}-static PROPERTIES OUTPUT_NAME "${SPIRV_TOOLS}")
+  target_compile_definitions(${SPIRV_TOOLS}-static PUBLIC SPIRV_TOOLS_SHAREDLIB SPIRV_TOOLS_IMPLEMENTATION)
 
   # Create the "${SPIRV_TOOLS}" target as an alias to either "${SPIRV_TOOLS}-static"
   # or "${SPIRV_TOOLS}-shared" depending on the value of BUILD_SHARED_LIBS.
@@ -409,6 +410,7 @@ if(SPIRV_TOOLS_BUILD_STATIC)
 else()
   add_library(${SPIRV_TOOLS} ${SPIRV_TOOLS_LIBRARY_TYPE} ${SPIRV_SOURCES})
   spirv_tools_default_target_options(${SPIRV_TOOLS})
+  target_compile_definitions(${SPIRV_TOOLS} PUBLIC SPIRV_TOOLS_SHAREDLIB SPIRV_TOOLS_IMPLEMENTATION)
   set(SPIRV_TOOLS_TARGETS ${SPIRV_TOOLS} ${SPIRV_TOOLS}-shared)
 endif()
 
