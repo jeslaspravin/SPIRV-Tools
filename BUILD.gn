@@ -781,6 +781,8 @@ static_library("spvtools_opt") {
     "source/opt/set_spec_constant_default_value_pass.h",
     "source/opt/simplification_pass.cpp",
     "source/opt/simplification_pass.h",
+    "source/opt/split_combined_image_sampler_pass.cpp",
+    "source/opt/split_combined_image_sampler_pass.h",
     "source/opt/spread_volatile_semantics.cpp",
     "source/opt/spread_volatile_semantics.h",
     "source/opt/ssa_rewrite_pass.cpp",
@@ -1377,10 +1379,12 @@ if (build_with_chromium && spvtools_build_executables) {
       "test/fix_word_test.cpp",
       "test/generator_magic_number_test.cpp",
       "test/hex_float_test.cpp",
+      "test/hex_to_text_test.cpp",
       "test/immediate_int_test.cpp",
       "test/libspirv_macros_test.cpp",
       "test/name_mapper_test.cpp",
       "test/named_id_test.cpp",
+      "test/op_unknown_test.cpp",
       "test/opcode_make_test.cpp",
       "test/opcode_require_capabilities_test.cpp",
       "test/opcode_split_test.cpp",
@@ -1424,6 +1428,7 @@ if (build_with_chromium && spvtools_build_executables) {
       ":spvtools_language_header_cldebuginfo100",
       ":spvtools_language_header_debuginfo",
       ":spvtools_language_header_vkdebuginfo100",
+      ":spvtools_tools_io",
       ":spvtools_val",
       "//testing/gmock",
       "//testing/gtest",
@@ -1466,6 +1471,15 @@ source_set("spvtools_tools_util") {
   configs += [ ":spvtools_internal_config" ]
 }
 
+source_set("spvtools_tools_io") {
+  sources = [
+    "tools/io.cpp",
+    "tools/io.h",
+  ]
+  deps = [ ":spvtools_headers" ]
+  configs += [ ":spvtools_internal_config" ]
+}
+
 if (spvtools_build_executables) {
   executable("spirv-as") {
     sources = [ "tools/as/as.cpp" ]
@@ -1473,6 +1487,7 @@ if (spvtools_build_executables) {
       ":spvtools",
       ":spvtools_software_version",
       ":spvtools_tools_util",
+      ":spvtools_tools_io",
     ]
     configs += [ ":spvtools_internal_config" ]
   }
@@ -1483,6 +1498,7 @@ if (spvtools_build_executables) {
       ":spvtools",
       ":spvtools_software_version",
       ":spvtools_tools_util",
+      ":spvtools_tools_io",
     ]
     configs += [ ":spvtools_internal_config" ]
   }
@@ -1493,6 +1509,7 @@ if (spvtools_build_executables) {
       ":spvtools",
       ":spvtools_software_version",
       ":spvtools_tools_util",
+      ":spvtools_tools_io",
       ":spvtools_val",
     ]
     configs += [ ":spvtools_internal_config" ]
@@ -1508,6 +1525,7 @@ if (spvtools_build_executables) {
       ":spvtools",
       ":spvtools_software_version",
       ":spvtools_tools_util",
+      ":spvtools_tools_io",
     ]
     configs += [ ":spvtools_internal_config" ]
   }
@@ -1519,6 +1537,7 @@ if (spvtools_build_executables) {
       ":spvtools_opt",
       ":spvtools_software_version",
       ":spvtools_tools_util",
+      ":spvtools_tools_io",
       ":spvtools_val",
     ]
     configs += [ ":spvtools_internal_config" ]
@@ -1532,6 +1551,7 @@ if (spvtools_build_executables) {
       ":spvtools_opt",
       ":spvtools_software_version",
       ":spvtools_tools_util",
+      ":spvtools_tools_io",
       ":spvtools_val",
     ]
     configs += [ ":spvtools_internal_config" ]
@@ -1552,6 +1572,7 @@ if (!is_ios && !spirv_is_winuwp && build_with_chromium && spvtools_build_executa
       ":spvtools_reduce",
       ":spvtools_software_version",
       ":spvtools_tools_util",
+      ":spvtools_tools_io",
       ":spvtools_val",
       "//third_party/protobuf:protobuf_full",
     ]
@@ -1571,6 +1592,7 @@ if (!is_ios && !spirv_is_winuwp && spvtools_build_executables) {
       ":spvtools_reduce",
       ":spvtools_software_version",
       ":spvtools_tools_util",
+      ":spvtools_tools_io",
       ":spvtools_val",
     ]
     configs += [ ":spvtools_internal_config" ]

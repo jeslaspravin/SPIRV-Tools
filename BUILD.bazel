@@ -201,6 +201,7 @@ cc_library(
     deps = [
         ":spirv_tools_internal",
         "@spirv_headers//:spirv_common_headers",
+        "@spirv_headers//:spirv_c_headers",
     ],
 )
 
@@ -269,6 +270,7 @@ cc_library(
 cc_library(
     name = "tools_io",
     hdrs = ["tools/io.h"],
+    srcs = ["tools/io.cpp"],
     copts = COMMON_COPTS,
 )
 
@@ -446,6 +448,7 @@ cc_library(
         "tools_util",
         ":spirv_tools_internal",
         ":test_lib",
+        ":tools_io",
         "@googletest//:gtest",
         "@googletest//:gtest_main",
     ],

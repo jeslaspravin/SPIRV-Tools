@@ -501,6 +501,11 @@ Options (in lexicographical order):)",
                is invalid, the optimizer may fail or generate incorrect code.
                This options should be used rarely, and with caution.)");
   printf(R"(
+  --split-combined-image-sampler
+               Replace combined image sampler variables and parameters into
+               pairs of images and samplers.  New variables have the same
+               bindings as the original variable.)");
+  printf(R"(
   --strength-reduction
                Replaces instructions with equivalent and less expensive ones.)");
   printf(R"(
@@ -876,7 +881,7 @@ int main(int argc, const char** argv) {
   }
 
   std::vector<uint32_t> binary;
-  if (!ReadBinaryFile<uint32_t>(in_file, &binary)) {
+  if (!ReadBinaryFile(in_file, &binary)) {
     return 1;
   }
 
